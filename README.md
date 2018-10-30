@@ -1,9 +1,23 @@
 # Pixel
 
-A 256x256 crowdsourced display.  Users can collaborate to draw images on the screen.  Only 2 updates allowed per IP per minute.
+A 128x128 crowdsourced display.
 
-## Setting pixels with curl
+Send a POST request to `pixel.acm.illinois.edu` with headers
+- `x`: 0-127
+- `y`: 0-127
+- `color`: #FFFFFF or a supported [color string](https://www.tcl.tk/man/tcl8.6/TkCmd/colors.htm)
 
-Set pixels using curl.  <0, 0> corresponds to the top left corner.
+## Examples
 
-    curl -H "x: 128" -H "y: 128" -H "color: #FF0000" -X post http://pixel.acm.illinois.edu
+curl
+
+    curl -H "x: 0" -H "y: 0" -H "color: red" -X post pixel.acm.illinois.edu
+    
+python
+
+``` python
+import requests
+requests.post('http://pixel.acm.illinois.edu', headers={'x': '0', 'y': '0', 'color': '#FF0000'})
+```
+
+    
