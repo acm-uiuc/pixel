@@ -1,6 +1,6 @@
 # Evan Widloski - 2018-10-15
 # Skeleton Flask App for Twilight
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, redirect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import logging
@@ -74,6 +74,9 @@ def hello():
     finally:
         return "success\n"
 
+@app.route('/', methods=['GET'])
+def readme():
+    return redirect("https://www.github.com/acm-uiuc/pixel")
 
 @app.errorhandler(429)
 def ratelimit(e):
