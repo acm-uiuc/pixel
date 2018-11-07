@@ -5,6 +5,7 @@ import logging
 import tkinter as tk
 import threading
 from tkinter import *
+import signal
 master = Tk()
 
 screen_width = 1280
@@ -42,11 +43,9 @@ class Page(Resource):
     isLeaf = True
     def render_POST(self, request):
         try:
-            x = int(request.getHeader('x'))
-            y = int(request.getHeader('y'))
-            color = request.getHeader('color')
-
-            print(x, y, color)
+            x = int(request.args[b'x'][0])
+            y = int(request.args[b'y'][0])
+            color = request.args[b'color'][0]
 
             tkapp.w.create_rectangle(
                 x * pixel_width,
@@ -58,8 +57,9 @@ class Page(Resource):
             )
         except Exception:
             return b"you suck\n"
-        finally:
-            return b"success\n"
+
+        return b"success\n"
+
     def render_GET(self, request):
         print(request.getHeader('x'))
         return b'success\n'
@@ -67,6 +67,7 @@ class Page(Resource):
 
 tkapp = TkApp()
 
+signal.signal(signal.SIGINT, signal.default_int_handler)
 site = Site(Page())
-reactor.listenTCP(80, site)
+reactor.listenTCP(8888, site)
 reactor.run()
