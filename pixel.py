@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 # Evan Widloski - 2018-10-15
-from flask import Flask, request, make_response, redirect
+from flask import Flask, request, make_response, redirect, send_file
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import logging
 import tkinter as tk
 import threading
 from tkinter import *
+from PIL import Image
+from io import BytesIO
 
 screen_width = 1280
 screen_height = 1024
@@ -46,10 +48,9 @@ class TkApp(threading.Thread):
 
 tkapp = TkApp()
 
-
 # @limiter.limit("2/minute")
 @app.route('/', methods=['POST'])
-def hello():
+def root():
     """POST endpoint for JSON data"""
 
     try:
@@ -63,12 +64,36 @@ def hello():
             x * pixel_width + pixel_width,
             y * pixel_height + pixel_height,
             fill=color,
-            width=0
+            width=0,
+            outline=""
         )
     except Exception:
         return "you suck\n"
 
     return "success\n"
+
+@app.route('/image.png', methods=['GET'])
+def image():
+    """Return png of current canvas"""
+    ps = tkapp.w.postscript(colormode='color')
+    out = BytesIO()
+    Image.open(BytesIO(ps.encode('utf-8'))).save(out, format="PNG")
+    out.seek(0)
+    return send_file(out, mimetype='image/png')
+
+@app.route('/image_small.png', methods=['GET'])
+def image_small():
+    """Return png of current canvas"""
+    ps = tkapp.w.postscript(colormode='color')
+    out = BytesIO()
+    im = Image.open(BytesIO(ps.encode('utf-8')))
+    # im = im.resize((display_width, display_height), Image.ANTIALIAS)
+    # im = im.resize((display_width, display_height), resample=Image.BILINEAR)
+    im = im.resize((display_width, display_height))
+    im.save(out, format="PNG")
+    out.seek(0)
+    return send_file(out, mimetype='image/png')
+
 
 @app.route('/', methods=['GET'])
 def readme():
