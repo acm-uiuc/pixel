@@ -1,5 +1,7 @@
 # Pixel
 
+<img src="photo.jpg" width=500>
+
 A 128x128 crowdsourced display.
 
 Send a POST request to `pixel.acm.illinois.edu` with data
