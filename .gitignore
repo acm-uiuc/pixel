@@ -1,0 +1,10 @@
+# Python generated files
+*.pyc
+__pycached__
+
+# Images
+*.png
+*.jpg
+
+# VS Code
+.vscode
