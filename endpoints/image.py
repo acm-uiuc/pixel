@@ -28,11 +28,6 @@ def image():
     Upload publicly accessible link of image, and render it on the screen, at full width and height.
     """
 
-    result = {
-        "status": "Failure",
-        "error": "N/A"
-    }
-
     try:
         payload = json.loads(request.data)
         image_url = payload["url"]
@@ -50,9 +45,16 @@ def image():
 
         tkapp.w.create_image(image_location, image=tk_photo_image)
 
+        result = {
+            "status": "Success",
+            "error": "N/A"
+        }
         return json.dumps(result)
     except Exception as e:
-        result["error"] = e
+        result = {
+            "status": "Failure",
+            "error": e
+        }
         return json.dumps(result)
 
 # @limiter.limit("2/minute")
@@ -75,10 +77,17 @@ def pixel():
             width=0,
             outline=""
         )
-    except Exception:
-        return "you suck\n"
-
-    return "success\n"
+        result = {
+            "status": "Success",
+            "error": "N/A"
+        }
+        return json.dumps(result)
+    except Exception as e:
+        result = {
+            "status": "Failure",
+            "error": e
+        }
+        return json.dumps(result)
 
 
 @blueprint_image.errorhandler(429)
