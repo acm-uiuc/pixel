@@ -37,11 +37,11 @@ def image():
             file.write(requests.get(image_url).content)
 
         image = Image.open(LOCAL_IMAGE_PATH).resize(
-            (constants.screen_width, constants.screen_height), Image.ANTIALIAS)
+            (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), Image.ANTIALIAS)
         tk_photo_image = ImageTk.PhotoImage(image, master=view.tkapp.w)
 
-        image_location = (constants.screen_width // 2,
-                          constants.screen_height // 2)
+        image_location = (constants.SCREEN_WIDTH // 2,
+                          constants.SCREEN_HEIGHT // 2)
 
         tkapp.w.create_image(image_location, image=tk_photo_image)
 
@@ -69,10 +69,10 @@ def pixel():
         color = request.form.get('color')
 
         tkapp.w.create_rectangle(
-            x * constants.pixel_width,
-            y * constants.pixel_height,
-            x * constants.pixel_width + constants.pixel_width,
-            y * constants.pixel_height + constants.pixel_height,
+            x * constants.PIXEL_WIDTH,
+            y * constants.PIXEL_HEIGHT,
+            x * constants.PIXEL_WIDTH + constants.PIXEL_WIDTH,
+            y * constants.PIXEL_HEIGHT + constants.PIXEL_HEIGHT,
             fill=color,
             width=0,
             outline=""
@@ -93,10 +93,10 @@ def pixel():
 @blueprint_image.errorhandler(429)
 def image_ratelimit(e):
     """
-    Custom response for rate limit exceeded
+    Custom response for rate limit exceeded.
     """
 
-    return make_response("Rate limit exceeded: {}\n".format(e.description), 429)
+    return make_response(f"Rate limit exceeded: {e.description}.", 429)
 
 
 @blueprint_image.route('/image/screenshot/regular/', methods=['GET'])

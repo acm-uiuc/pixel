@@ -21,7 +21,7 @@ class TkApp(threading.Thread):
         self.root = tk.Tk()
         self.root.protocol("WM_DELETE_WINDOW", self.callback)
         self.w = tk.Canvas(
-            self.root, width=constants.screen_width, height=constants.screen_height)
+            self.root, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
         self.w.pack()
 
         label = tk.Label(self.root, text="Hello World")

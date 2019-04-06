@@ -1,4 +1,4 @@
-# ACM-UIUC Pixel
+# ACM@UIUC Pixel
 
 <img src="photo.jpg" width=500>
 
