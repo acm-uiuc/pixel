@@ -31,14 +31,15 @@ def image():
     try:
         payload = json.loads(request.data)
         image_url = payload["url"]
-        LOCAL_IMAGE_PATH = "screenImage_" + image_url.split("/")[-1]
+        local_image_path = "images/screenImage_" + image_url.split("/")[-1]
 
-        with open(LOCAL_IMAGE_PATH, 'wb') as file:
-            file.write(requests.get(image_url).content)
+        with open(local_image_path, 'wb') as file:
+            downloaded_file_contents = requests.get(image_url).content
+            file.write(downloaded_file_contents)
 
-        image = Image.open(LOCAL_IMAGE_PATH).resize(
+        image = Image.open(local_image_path).resize(
             (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), Image.ANTIALIAS)
-        tk_photo_image = ImageTk.PhotoImage(image, master=view.tkapp.w)
+        tk_photo_image = ImageTk.PhotoImage(image, master=tkapp.w)
 
         image_location = (constants.SCREEN_WIDTH // 2,
                           constants.SCREEN_HEIGHT // 2)
@@ -102,7 +103,7 @@ def image_ratelimit(e):
 @blueprint_image.route('/image/screenshot/regular/', methods=['GET'])
 def screenshot_regular():
     """
-    Return PNG of current canvas, regular size.
+    Return a regular size PNG of the current canvas.
     """
     ps = tkapp.w.postscript(colormode='color')
     out = BytesIO()
@@ -114,13 +115,13 @@ def screenshot_regular():
 @blueprint_image.route('/image/screenshot/small/', methods=['GET'])
 def screenshot_small():
     """
-    Return PNG of current canvas, small size.
+    Returns a small size PNG of the current canvas.
     """
     ps = tkapp.w.postscript(colormode='color')
     out = BytesIO()
     im = Image.open(BytesIO(ps.encode('utf-8')))
 
-    im = im.resize((constants.display_width, constants.display_height))
+    im = im.resize((constants.DISPLAY_WIDTH, constants.DISPLAY_HEIGHT))
     im.save(out, format="PNG")
     out.seek(0)
     return send_file(out, mimetype='image/png')

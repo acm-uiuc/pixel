@@ -50,7 +50,7 @@ Request body:
 
 ## GET /image/screenshot/regular/
 
-Returns a regular-sized screenshot of the Pixel display, with regular size.
+Returns a regular-sized screenshot of the Pixel display.
 
 ## GET /image/screenshot/small/
 
