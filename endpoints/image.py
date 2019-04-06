@@ -1,5 +1,6 @@
 from view import view
 from config import constants
+from util import util
 
 
 from flask import Flask, Blueprint, render_template, session, abort, redirect, request, make_response, send_file, g
@@ -33,7 +34,7 @@ def image():
         image_url = payload["url"]
         local_image_path = "images/screenImage_" + image_url.split("/")[-1]
 
-        with open(local_image_path, 'wb') as file:
+        with util.safe_open(local_image_path, 'wb') as file:
             downloaded_file_contents = requests.get(image_url).content
             file.write(downloaded_file_contents)
 
