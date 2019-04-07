@@ -11,3 +11,6 @@ __pycached__
 
 # Uploaded images
 images/
+
+# Virtual environment
+venv/
