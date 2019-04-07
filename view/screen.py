@@ -1,8 +1,7 @@
+import config
+
 import tkinter as tk
 import threading
-from tkinter import *
-
-from config import constants
 
 
 class TkApp(threading.Thread):
@@ -21,7 +20,7 @@ class TkApp(threading.Thread):
         self.root = tk.Tk()
         self.root.protocol("WM_DELETE_WINDOW", self.callback)
         self.w = tk.Canvas(
-            self.root, width=constants.SCREEN_WIDTH, height=constants.SCREEN_HEIGHT)
+            self.root, width=config.constants.SCREEN_WIDTH, height=config.constants.SCREEN_HEIGHT)
         self.w.pack()
 
         label = tk.Label(self.root, text="Hello World")
