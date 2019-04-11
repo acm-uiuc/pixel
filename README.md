@@ -10,24 +10,6 @@ Base API URL: [http://pixel.acm.illinois.edu](http://pixel.acm.illinois.edu).
 
 Rate Limit: 2 requests per minute.
 
-## POST /image/link/
-
-Displays the image contained at the URL on the ACM@UIUC Pixel display.
-Request body:
-
-```
-{
-    "url": "https://farm3.staticflickr.com/2858/9370723510_a6919a15bc_b.jpg"
-}
-```
-
-Response body:
-
-```
-    "status": "Success"
-    "error": "Error message if applicable."
-```
-
 ## POST /image/pixel/
 
 Displays the image contained at the URL on the ACM@UIUC Pixel display.
