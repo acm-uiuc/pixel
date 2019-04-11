@@ -1,6 +1,7 @@
 import os
 import errno
 
+
 def mkdir_p(path):
     """
     Equivalent to `mkdir -p`. Creates any subdirectories in path if they don't already exist.
