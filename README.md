@@ -10,15 +10,13 @@ Base API URL: [http://pixel.acm.illinois.edu](http://pixel.acm.illinois.edu).
 
 Rate Limit: 2 requests per minute.
 
-## POST /image/pixel/
+## GET /
 
-Displays the image contained at the URL on the ACM@UIUC Pixel display.
+Redirects to the GitHub repository.
 
-Send a POST request to `pixel.acm.illinois.edu` with data
+## POST /
 
-- `x`: 0-127
-- `y`: 0-127
-- `color`: #FFFFFF or a supported [color string](https://www.tcl.tk/man/tcl8.6/TkCmd/colors.htm).
+Renders a pixel with specified pixel color, at the given x and y coordinates.
 
 Request body:
 
@@ -30,11 +28,17 @@ Request body:
 }
 ```
 
-## GET /image/screenshot/regular/
+Send a POST request to `pixel.acm.illinois.edu` with data
 
-Returns a regular-sized screenshot of the Pixel display.
+- `x`: 0-127
+- `y`: 0-127
+- `color`: #FFFFFF or a supported [color string](https://www.tcl.tk/man/tcl8.6/TkCmd/colors.htm).
 
-## GET /image/screenshot/small/
+## GET /screenshot/small.png/
+
+Fetches a regular-sized screenshot of the Pixel display.
+
+## GET /screenshot/regular.png/
 
 Fetches a small-sized screenshot of the Pixel display.
 

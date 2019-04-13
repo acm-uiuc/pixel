@@ -1,4 +1,3 @@
-import util.file
 import config.constants
 import view.screen
 import endpoints.commons
@@ -10,7 +9,6 @@ import PIL.Image
 import PIL.ImageTk
 
 import tkinter as tk
-import requests
 
 import io
 import json
@@ -29,7 +27,7 @@ def readme():
     return flask.redirect("https://www.github.com/acm-uiuc/pixel")
 
 # @limiter.limit("2/minute")
-@blueprint_image.route('/image/pixel/', methods=['POST'])
+@blueprint_image.route('/', methods=['POST'])
 def pixel():
     """
     Send a pixel color, and x and y coordinates to render the pixel.
@@ -59,10 +57,10 @@ def image_ratelimit(e):
     Custom response for rate limit exceeded.
     """
 
-    return flask.make_response(f"Rate limit exceeded: {e.description}.", 429)
+    return flask.make_response("Rate limit exceeded: {}.".format(e.description), 429)
 
 
-@blueprint_image.route('/image/screenshot/regular/', methods=['GET'])
+@blueprint_image.route('/screenshot/regular.png/', methods=['GET'])
 def screenshot_regular():
     """
     Return a regular size PNG of the current canvas.
@@ -77,7 +75,7 @@ def screenshot_regular():
     return flask.send_file(output, mimetype='image/png')
 
 
-@blueprint_image.route('/image/screenshot/small/', methods=['GET'])
+@blueprint_image.route('/screenshot/small.png/', methods=['GET'])
 def screenshot_small():
     """
     Returns a small size PNG of the current canvas.
