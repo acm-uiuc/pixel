@@ -19,4 +19,4 @@ if __name__ == "__main__":
     limiter = flask_limiter.Limiter(
         app, key_func=flask_limiter.util.get_remote_address)
 
-    app.run("localhost", "5000")
+    app.run("0.0.0.0", "80")
