@@ -30,11 +30,11 @@ Request body:
 - `y`: 0-127
 - `color`: #FFFFFF or a supported [color string](https://www.tcl.tk/man/tcl8.6/TkCmd/colors.htm).
 
-#### GET /screenshot/small.png/
+#### GET /small.bmp
 
-Fetches a regular-sized screenshot of the Pixel display.
+Fetches a 128x128 screenshot of the Pixel display.
 
-#### GET /screenshot/regular.png/
+<!-- #### GET /screenshot/regular.png/ -->
 
-Fetches a small-sized screenshot of the Pixel display.
+<!-- Fetches a small-sized screenshot of the Pixel display. -->
 

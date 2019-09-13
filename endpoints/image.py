@@ -1,12 +1,13 @@
 import config.constants
 import view.screen
-import endpoints.commons
+from endpoints.commons import construct_response, write_bmp, create_bmp
 
 import flask
 
 import PIL
 import PIL.Image
 import PIL.ImageTk
+import webcolors
 
 import tkinter as tk
 
@@ -16,8 +17,10 @@ import sys
 import cgi
 import logging
 
-blueprint_image = flask.Blueprint('blueprint_image', __name__)
+log = logging.getLogger(__name__)
 
+blueprint_image = flask.Blueprint('blueprint_image', __name__)
+create_bmp()
 
 @blueprint_image.route('/', methods=['GET'])
 def readme():
@@ -46,9 +49,15 @@ def pixel():
             width=0,
             outline=""
         )
-        return endpoints.commons.construct_response()
+
+        parsed_color = webcolors.html5_parse_legacy_color(color)
+        write_bmp(x, y, parsed_color.red, parsed_color.green, parsed_color.blue)
+
+        return construct_response()
     except Exception as e:
-        return endpoints.commons.construct_response(status="Failure", message=str(e))
+        import traceback
+        log.error(traceback.format_exc())
+        return construct_response(status="Failure", message=str(e))
 
 
 @blueprint_image.errorhandler(429)
@@ -60,35 +69,18 @@ def image_ratelimit(e):
     return flask.make_response("Rate limit exceeded: {}.".format(e.description), 429)
 
 
-@blueprint_image.route('/screenshot/regular.png/', methods=['GET'])
+@blueprint_image.route('/large.bmp', methods=['GET'])
 def screenshot_regular():
     """
-    Return a regular size PNG of the current canvas.
+    Return a large size BMP of the current canvas.
     """
-    postscript = view.screen.tkapp.w.postscript(colormode='color')
-
-    output = io.BytesIO()
-    PIL.Image.open(io.BytesIO(postscript.encode('utf-8'))
-                   ).save(output, format="PNG")
-    output.seek(0)
-
-    return flask.send_file(output, mimetype='image/png')
+    pass
 
 
-@blueprint_image.route('/screenshot/small.png/', methods=['GET'])
+@blueprint_image.route('/small.bmp', methods=['GET'])
 def screenshot_small():
     """
-    Returns a small size PNG of the current canvas.
+    Returns a small size BMP of the current canvas.
     """
-    postscript = view.screen.tkapp.w.postscript(colormode='color')
 
-    output = io.BytesIO()
-    image = PIL.Image.open(io.BytesIO(postscript.encode('utf-8')))
-
-    resized_image = image.resize(
-        (config.constants.DISPLAY_WIDTH, config.constants.DISPLAY_HEIGHT))
-
-    resized_image.save(output, format="PNG")
-    output.seek(0)
-
-    return flask.send_file(output, mimetype='image/png')
+    return flask.send_file('image.bmp')

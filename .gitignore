@@ -5,6 +5,7 @@ __pycached__
 # Images
 *.png
 *.jpg
+*.bmp
 
 # VS Code
 .vscode
