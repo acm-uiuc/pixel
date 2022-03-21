@@ -58,7 +58,7 @@ def pixel():
         exc_type, exc_obj, exc_tb = sys.exc_info()
         import traceback
         log.error(traceback.format_exc())
-        return construct_response(status="Failure", message="Line: exc_tb.tb_lineno, " + str(e))
+        return construct_response(status="Failure", message="Line:" +  exc_tb.tb_lineno + ", " +  str(e))
 
 
 @blueprint_image.errorhandler(429)
